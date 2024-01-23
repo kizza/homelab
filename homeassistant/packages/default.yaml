@@ -1,0 +1,26 @@
+ifttt:
+  key: !secret iftt_key
+
+tts:
+  - platform: google_translate
+
+automation: !include ../automations.yaml
+group: !include ../groups.yaml
+scene: !include ../scenes.yaml
+script: !include ../scripts.yaml
+logger:
+  default: warning
+  # logs:
+    # This works for tv
+    # homeassistant.components.braviatv: debug
+    # homeassistant.components.androidtv: debug
+    # pybravia: debug
+
+    # custom_components.robovac.vacuum: debug
+    # custom_components.robovac.tuyalocalapi: debug
+
+    # custom_components.my_platform: debug
+    # custom_components.tv_service: debug
+    # homeassistant.components.flux_led: debug
+    # flux_led: debug
+    # androidtv.adb_manager: debug

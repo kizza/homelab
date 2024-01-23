@@ -1,0 +1,149 @@
+version: '3'
+
+include:
+  - docker-compose.proxy.yaml
+
+services:
+  homeassistant:
+    container_name: homeassistant
+    image: "ghcr.io/home-assistant/home-assistant:stable"
+    volumes:
+      - /opt/homeassistant:/config
+      - /etc/localtime:/etc/localtime:ro
+      - /run/dbus:/run/dbus:ro
+      # Mount specifics from this repo (leaving the majority as is within /opt)
+      - ./homeassistant/blueprints:/config/blueprints:ro
+      - ./homeassistant/lovelace:/config/lovelace:ro
+      - ./homeassistant/packages:/config/packages:ro
+      - ./homeassistant/www/icons:/config/www/icons:ro
+      - ./homeassistant/www/sounds:/config/www/sounds:ro
+      - ./homeassistant/configuration.yaml:/config/configuration.yaml:ro
+    devices:
+      - /dev/ttyACM0:/dev/ttyACM0
+    restart: unless-stopped
+    privileged: true
+    network_mode: host
+    environment:
+      - PROXY_IP=${PROXY_IP} # Pass for use as trusted proxy
+      - HOME_ASSISTANT_PORT=${HOME_ASSISTANT_PORT} # Optional custom port
+
+  govee2mqtt:
+    image: ghcr.io/wez/govee2mqtt:latest
+    container_name: govee2mqtt
+    restart: unless-stopped
+    network_mode: host
+    depends_on:
+      - mqtt
+    environment:
+      - GOVEE_EMAIL=${GOVEE_EMAIL}
+      - GOVEE_PASSWORD=${GOVEE_PASSWORD}
+      - GOVEE_API_KEY=${GOVEE_API_KEY}
+      - GOVEE_MQTT_HOST=127.0.0.1
+      - GOVEE_MQTT_PORT=1883
+      - GOVEE_MQTT_USER=${GOVEE_MQTT_USER}
+      - GOVEE_MQTT_PASSWORD=${GOVEE_MQTT_PASSWORD}
+      - TZ=${TZ}
+
+  kuma:
+    image: louislam/uptime-kuma:1
+    container_name: uptime-kuma
+    restart: unless-stopped
+    volumes:
+      - /opt/kuma:/app/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 3001:3001
+
+  code-server:
+    image: lscr.io/linuxserver/code-server:latest
+    container_name: code-server
+    depends_on:
+      - homeassistant
+    environment:
+      - PUID=${USER_ID}
+      - PGID=${GROUP_ID}
+      - TZ=${TZ}
+      - DEFAULT_WORKSPACE=/home/homeassistant
+    volumes:
+      - /opt/code-server:/config
+      - /opt/homeassistant:/home/homeassistant
+      - ./vscode/extensions:/config/extensions
+    ports:
+      - 8443:8443
+    restart: unless-stopped
+
+  mqtt:
+    image: eclipse-mosquitto
+    container_name: mosquitto
+    restart: unless-stopped
+    volumes:
+      - /opt/mosquitto/config:/mosquitto/config
+      - /opt/mosquitto/data:/mosquitto/data
+      - /opt/mosquitto/log:/mosquitto/log
+      - ./mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+    ports:
+      - 1883:1883
+      - 9001:9001
+
+  frigate:
+    container_name: frigate
+    image: ghcr.io/blakeblackshear/frigate:stable
+    privileged: true
+    shm_size: "64mb" # update for your cameras based on calculation above
+    restart: unless-stopped
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /opt/frigate/config:/config
+      - /opt/frigate/media:/media/frigate
+      - ./frigate.yml:/config/config.yml
+      - type: tmpfs # Optional: 1GB of memory, reduces SSD/SD Card wear
+        target: /tmp/cache
+        tmpfs:
+          size: 1000000000
+    devices:
+      - /dev/bus/usb:/dev/bus/usb
+    ports:
+      - "5050:5000" # Port used by the Web UI
+      - "8554:8554" # RTSP feeds
+      - "8555:8555/tcp" # WebRTC over tcp
+      - "8555:8555/udp" # WebRTC over udp
+    environment:
+      - FRIGATE_MQTT_USER=${FRIGATE_MQTT_USER}
+      - FRIGATE_MQTT_PASS=${FRIGATE_MQTT_PASS}
+      - FRIGATE_RTSP_IP=${RTSP_IP}
+      - FRIGATE_RTSP_USER=${RTSP_USER}
+      - FRIGATE_RTSP_PASS=${RTSP_PASS}
+
+  # motioneye:
+  #   container_name: motioneye
+  #   image: ccrisan/motioneye:master-armhf
+  #   restart: unless-stopped
+  #   volumes:
+  #     - /srv/motioneye:/var/lib/motioneye
+  #   ports:
+  #     - "8765:8765/tcp"
+  #     - "8081:8081/tcp"
+
+  adguardhome:
+    container_name: adguardhome
+    image: adguard/adguardhome
+    restart: unless-stopped
+    volumes:
+      - /opt/adguard/work:/opt/adguardhome/work
+      - /opt/adguard/conf:/opt/adguardhome/conf
+    ports:
+      - '53:53/tcp'
+      - '53:53/udp'
+      - '80:80/tcp'
+      - '443:443/tcp'
+      - '443:443/udp'
+      - '3000:3000/tcp'
+
+  dashboard:
+    image: b4bz/homer
+    container_name: homer
+    restart: unless-stopped
+    volumes:
+      - ./homer/assets/:/www/assets
+    ports:
+      - 8080:8080

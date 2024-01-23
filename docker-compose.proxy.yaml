@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  tunnel:
+    container_name: cloudflared-tunnel
+    image: cloudflare/cloudflared
+    restart: unless-stopped
+    command: tunnel run
+    environment:
+      - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
+    networks:
+      default:
+
+  proxy:
+    container_name: nginx
+    image: nginx:latest
+    expose:
+      - ${PROXY_PORT} # Map external cloudflare port to internal nginx port
+    volumes:
+      - ./nginx.conf:/etc/nginx/templates/default.conf.template:ro # Mount conf as template (to substitute env variables)
+      - ./ssl:/etc/nginx/ssl:ro # Mount fullchain.pem and privkey.pem
+    restart: unless-stopped
+    networks:
+      default:
+        ipv4_address: ${PROXY_IP}
+    environment:
+      - DOCKER_HOST_IP=${DOCKER_HOST_IP}
+      - PROXY_PORT=${PROXY_PORT}
+      - SERVICE_DOMAIN_1=${SERVICE_DOMAIN_1}
+      - SERVICE_PORT_1=${SERVICE_PORT_1}
+      - SERVICE_DOMAIN_2=${SERVICE_DOMAIN_2}
+      - SERVICE_PORT_2=${SERVICE_PORT_2}
+
+networks:
+  default:
+    ipam:
+      config:
+        - subnet: ${DOCKER_SUBNET}
+          gateway: ${DOCKER_HOST_IP}

@@ -1,0 +1,117 @@
+# light:
+#    - platform: flux_led
+#      devices:
+#        !secret bedroom_magic_led:
+#          name: Bedroom Backlight
+#          mode: "rgb"
+#        !secret deck_magic_led:
+#          name: Deck Backlight
+#          mode: "rgb"
+#        !secret downstairs_magic_led:
+#          name: Downstairs Backlight
+#          mode: "rgb"
+#        !secret kitchen_magic_led:
+#          name: Kitchen Backlight
+#          mode: "rgb"
+
+##
+## Colours used in effects
+##
+#input_boolean:
+#   colour_red:
+#     name: Red
+#     icon: mdi:invert-colors
+#     initial: off
+#   colour_green:
+#     name: Green
+#     icon: mdi:invert-colors
+#     initial: off
+#   colour_blue:
+#     name: Blue
+#     icon: mdi:invert-colors
+#     initial: off
+#   colour_purple:
+#     name: Purple
+#     icon: mdi:invert-colors
+#     initial: on
+#   colour_sky:
+#     name: Sky
+#     icon: mdi:invert-colors
+#     initial: on
+#   colour_sun:
+#     name: Sun
+#     icon: mdi:invert-colors
+#     initial: on
+#   colour_white:
+#     name: White
+#     icon: mdi:invert-colors
+#     initial: on
+#   colour_mint:
+#     name: Mint
+#     icon: mdi:invert-colors
+#     initial: off
+#   colour_pink:
+#     name: pink
+#     icon: mdi:invert-colors
+#     initial: off
+#   colour_new_colour:
+#     name: New Colour
+#     icon: mdi:invert-colors
+#     initial: off
+
+   # # Lights to include in effects cycle
+   # include_tv_backlight:
+   #   name: TV Backlight
+   #   icon: mdi:lightbulb-outline
+   #   initial: on
+   # include_frame_backlight:
+   #   name: Frame Backlight
+   #   icon: mdi:lightbulb-outline
+   #   initial: on
+   # include_kitchen_backlight:
+   #   name: Kitchen Backlight
+   #   icon: mdi:lightbulb-outline
+   #   initial: on
+   # include_deck_backlight:
+   #   name: Deck Backlight
+   #   icon: mdi:lightbulb-outline
+   #   initial: off
+   # include_bedroom_backlight:
+   #   name: Bedroom Backlight
+   #   icon: mdi:lightbulb-outline
+   #   initial: off
+   # include_downstairs_backlight:
+   #   name: Downstairs Backlight
+   #   icon: mdi:lightbulb-outline
+   #   initial: off
+
+##
+## State to hold mood rgb string
+##
+#input_text:
+#  mood_rgb:
+#    name: Mood (rgb)
+#    initial: Unknown
+
+#
+# Template switch to represent all leds group
+#
+switch:
+  - platform: template
+    switches:
+      all_leds:
+        friendly_name: All LED Strips
+        icon_template: mdi:lightbulb-group-outline
+        value_template: >
+          {{ is_state('group.all_leds', 'on') }}
+        turn_on:
+          - service: homeassistant.turn_on
+            entity_id: group.all_leds
+        turn_off:
+          - service: homeassistant.turn_off
+            entity_id: group.all_leds
+
+#
+# Lighting scripts
+#
+script: !include_dir_merge_named scripts

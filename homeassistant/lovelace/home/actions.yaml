@@ -1,0 +1,31 @@
+type: vertical-stack
+title: Actions
+cards:
+  - type: "custom:button-card"
+    entity: media_player.big_tv_android
+    name: TV
+    show_name: false
+    icon: mdi:television-classic
+    icon_height: 48px
+    aspect_ratio: 1/0.24
+    state:
+      - value: "(standby|paused|playing)"
+        operator: regex
+        color: "var(--gruvbox-green)"
+      - value: "(idle|off|unavailable)"
+        operator: regex
+        color: "var(--paper-item-icon-color)"
+    tap_action:
+        action: call-service
+        service: script.turn_big_tv_on
+  - type: "custom:button-card"
+    entity: script.shut_it_down
+    name: Sleep
+    show_name: false
+    icon: mdi:sleep
+    icon_height: 48px
+    aspect_ratio: 1/0.24
+    tap_action:
+        action: call-service
+        service: script.shut_it_down
+

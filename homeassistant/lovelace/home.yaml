@@ -1,0 +1,13 @@
+path: default_view
+title: Home
+badges:
+  - entity: binary_sensor.home_assistant_versions_update_available
+  - entity: person.keiran
+  - entity: media_player.big_tv_android
+  - entity: sun.sun
+cards:
+  - !include home/lights.yaml
+  - !include home/tv.yaml
+  - !include home/actions.yaml
+  - type: weather-forecast
+    entity: weather.forecast_home

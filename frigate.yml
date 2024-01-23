@@ -1,0 +1,116 @@
+mqtt:
+  host: mqtt
+  user: '{FRIGATE_MQTT_USER}'
+  password: '{FRIGATE_MQTT_PASS}'
+  port: 1883
+  topic_prefix: frigate
+  client_id: frigate
+
+detectors:
+  coral:
+    type: edgetpu
+    device: usb
+
+record:
+  enabled: true
+  events:
+    retain:
+      objects:
+        car: 1
+
+snapshots:
+  enabled: true
+  required_zones:
+    - driveway
+    - secondary_park
+
+go2rtc:
+  streams:
+    # Recommended settings
+    sauron:
+      - ffmpeg:http://{FRIGATE_RTSP_IP}/flv?port=1935&app=bcs&stream=channel0_main.bcs&user={FRIGATE_RTSP_USER}&password={FRIGATE_RTSP_PASS}#video=copy#audio=copy#audio=opus
+    sauronsub:
+      - ffmpeg:http://{FRIGATE_RTSP_IP}/flv?port=1935&app=bcs&stream=channel0_ext.bcs&user={FRIGATE_RTSP_USER}&password={FRIGATE_RTSP_PASS}#video=copy
+
+    # Direct rtsp
+    # sauron:
+    #   - "rtsp://{FRIGATE_RTSP_USER}:{FRIGATE_RTSP_PASS}@{FRIGATE_RTSP_IP}:554/h264Preview_01_main"
+    # sauronsub:
+    #   - "rtsp://{FRIGATE_RTSP_USER}:{FRIGATE_RTSP_PASS}@{FRIGATE_RTSP_IP}:554/h264Preview_01_sub"
+
+objects:
+  track:
+    - person
+    - car
+
+cameras:
+  sauron:
+    ffmpeg:
+      inputs:
+        - path: rtsp://127.0.0.1:8554/sauron?video=copy
+          input_args: preset-rtsp-restream
+          roles:
+            - record
+        - path: rtsp://127.0.0.1:8554/sauronsub?video=copy
+          input_args: preset-rtsp-restream
+          roles:
+            - detect
+    motion:
+      mask:
+        - 201,672,74,550,237,396,771,672 # hedge
+    zones:
+      street:
+        coordinates: 896,0,896,223,230,45,224,0
+      driveway:
+        coordinates: 
+          0,318,259,144,406,179,421,128,523,149,594,214,825,250,896,281,896,672,142,672,0,517
+        objects:
+          - person
+      bins:
+        coordinates: 896,459,896,672,779,672,672,628,814,434
+        objects:
+          - person
+      primary_park:
+        coordinates: 284,129,525,199,380,434,77,296
+        objects:
+          - car
+      primary_park_entering:
+        coordinates: 611,242,741,369,896,313,814,248
+        inertia: 1 # quick identification
+        objects:
+          - car
+      primary_park_exiting:
+        coordinates: 390,223,648,236,532,176,505,136,414,131
+        inertia: 1 # quick identification
+        objects:
+          - car
+      secondary_park:
+        coordinates: 601,106,837,176,829,231,564,139
+        intertia: 3 # require a few frames
+        objects:
+          - car
+    detect:
+      width: 896
+      height: 672
+
+  # sauron:
+  #   ffmpeg:
+  #     inputs:
+  #       - path: "rtsp://{FRIGATE_RTSP_USER}:{FRIGATE_RTSP_PASS}@{FRIGATE_RTSP_IP}:554/h264Preview_01_main"
+  #         roles:
+  #           - record
+  #       - path: "rtsp://{FRIGATE_RTSP_USER}:{FRIGATE_RTSP_PASS}@{FRIGATE_RTSP_IP}:554/h264Preview_01_sub"
+  #         roles:
+  #           - detect
+  #   zones:
+  #     street:
+  #       coordinates: 640,155,640,0,155,0,173,57
+  #   detect:
+  #     width: 640
+  #     height: 480
+review:
+  alerts:
+    required_zones:
+      - driveway
+      - secondary_park
+version: 0.14

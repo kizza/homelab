@@ -1,0 +1,23 @@
+path: effects_view
+title: Effects
+icon: mdi:palette
+badges:
+cards:
+  - type: entities
+    entities:
+      - input_boolean.include_tv_backlight
+      - input_boolean.include_kitchen_backlight
+      - input_boolean.include_frame_backlight
+      - input_boolean.include_deck_backlight
+      - input_boolean.include_bedroom_backlight
+      - input_boolean.include_extra_backlight
+    title: Effect LEDs
+  - type: entities
+    entities:
+      - input_boolean.colour_red
+      - input_boolean.colour_green
+      - input_boolean.colour_blue
+      - input_boolean.colour_purple
+      - input_boolean.colour_sky
+      - input_boolean.colour_sun
+    title: Effect Colours
