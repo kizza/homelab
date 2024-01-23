@@ -1,0 +1,40 @@
+type: vertical-stack
+title: Effects
+cards:
+  - type: horizontal-stack
+    cards:
+    - type: "custom:button-card"
+      entity: script.theme_red
+      name: Play
+      icon: mdi:animation-play
+      icon_height: 48px
+      show_name: false
+      aspect_ratio: 1/0.7
+      tap_action:
+          action: call-service
+          service: script.start_animation
+    - type: "custom:button-card"
+      entity: script.theme_red
+      name: Play (Faded)
+      icon: mdi:animation-play-outline
+      icon_height: 48px
+      show_name: false
+      aspect_ratio: 1/0.7
+      tap_action:
+          action: call-service
+          service: script.start_animation_with_fade
+    - type: "custom:button-card"
+      entity: input_boolean.effect_running
+      name: Stop
+      icon: mdi:stop-circle-outline
+      icon_height: 48px
+      show_name: false
+      aspect_ratio: 1/0.7
+      state:
+        - value: "on"
+          color: "var(--gruvbox-green)"
+        - value: "off"
+          color: "var(--state-icon-unavailable-color)"
+      tap_action:
+          action: call-service
+          service: script.stop_animation

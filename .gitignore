@@ -1,0 +1,5 @@
+.DS_Store
+.env
+homer/assets/config.yml
+ssl/*
+vscode/extensions/*

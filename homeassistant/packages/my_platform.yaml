@@ -1,0 +1,12 @@
+# darth_fader:
+
+#
+# Triones LED strips (my custom platform)
+#
+my_platform:
+  - name: TV Backlight
+    type: triones
+    mac: !secret tv_backlight_mac
+  - name: Frame Backlight
+    type: triones
+    mac: !secret frame_backlight_mac
