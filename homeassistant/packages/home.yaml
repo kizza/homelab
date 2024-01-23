@@ -1,0 +1,57 @@
+#
+# Google assistant
+#
+google_assistant:
+  project_id: !secret google_assistant_project_id
+  service_account: !include ../google-service-account.json
+  exposed_domains:
+    - script
+    - scene
+  entity_config:
+    light.tv_backlight:
+      room: Family room
+    light.frame_backlight:
+      room: Family room
+    media_player.sony_bravia_tv:
+      name: The TV
+      room: Family room
+      aliases:
+        - Sony TV
+
+template:
+  - sensor:
+    - name: "Family"
+      state: >-
+        {% if states('person.keiran') == states('person.susanna') -%}
+          {{states('person.keiran')}}
+        {%- else -%}
+          mixed
+        {%- endif %}
+
+#
+# Sound on boot
+#
+automation:
+  - id: on_hass_boot
+    alias: On Boot
+    description: ''
+    trigger:
+    - event: start
+      platform: homeassistant
+    condition: []
+    action:
+    - data:
+        entity_id: media_player.family_room_speaker
+        media_content_id: !secret startup_mp3_path
+        media_content_type: audio/mp3
+      service: media_player.play_media
+  - id: notify_on_hass_update
+    alias: Notify on hass update
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.home_assistant_versions_update_available
+        to: 'on'
+    action:
+      - service: notify.notify
+        data:
+          message: A new Home Assistant release is available ({{ states('sensor.home_assistant_versions') }})

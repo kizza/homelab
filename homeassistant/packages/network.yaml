@@ -1,0 +1,36 @@
+http:
+  ip_ban_enabled: true
+  login_attempts_threshold: 5
+
+  # Optionally run on different port
+  server_port: !env_var HOME_ASSISTANT_PORT
+
+  # For extra security set this to only accept connections on localhost if NGINX is on the same machine
+  # Uncommenting this will mean that you can only reach Home Assistant using the proxy, not directly via IP from other clients.
+  # server_host: 127.0.0.1
+  use_x_forwarded_for: true
+
+  # You must set the trusted proxy IP address so that Home Assistant will properly accept connections
+  # Set this to your NGINX machine IP, or localhost if hosted on the same machine.
+  # trusted_proxies: localhost
+  trusted_proxies:
+    - !env_var PROXY_IP
+
+#
+# Speedtest.net
+#
+# speedtestdotnet:
+#   scan_interval:
+#     hours: 12
+#   monitored_conditions:
+#     - ping
+#     - download
+#     - upload
+
+# Add as input text (so we can use within lovelace ui)
+# (it is too long)
+# input_text:
+#   local_bearer_token:
+#     name: Local Bearer Token
+#     initial: !secret local_bearer_token
+

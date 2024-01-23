@@ -1,0 +1,15 @@
+type: entities
+title: Automation
+entities:
+  - automation.notify_motion
+  - automation.turn_on_after_motion
+  - automation.turn_off_after_no_motion
+  - automation.tv_flash_stairs
+  - automation.piano_flash_stairs
+  - automation.tv_flash_hallway
+  - automation.piano_flash_hallway
+  - automation.magic_led_with_motion
+  - automation.magic_led_no_more_motion
+  - automation.sunset_deck
+  - automation.sunset_inside
+

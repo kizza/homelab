@@ -1,0 +1,20 @@
+default_config:
+
+homeassistant:
+  auth_providers:
+    - type: homeassistant
+
+  packages:
+    deck: !include packages/deck/fairy_lights.yaml
+    default: !include packages/default.yaml
+    home: !include packages/home.yaml
+    climate: !include packages/climate.yaml
+    network: !include packages/network.yaml
+    # lighting: !include packages/lighting/lighting.yaml
+    power: !include packages/power.yaml
+    effects: !include packages/lighting/effects.yaml
+    # my_platform: !include packages/my_platform.yaml
+    # presence: !include packages/presence.yaml
+    # security: !include packages/security.yaml
+    tv: !include packages/tv/tv.yaml
+    ui: !include packages/ui/ui.yaml
