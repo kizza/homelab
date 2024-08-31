@@ -39,15 +39,20 @@ trigger:
   from: "off"
   to: "on"
 
-condition:
-  - alias: "If not already on"
-    condition: template
-    value_template: "{{ expand(lights.entity_id) | selectattr('state', '==', 'on') | list | count == 0 }}"
+# condition:
+#   - alias: "If not already on"
+#     condition: template
+#     value_template: "{{ expand(lights.entity_id) | selectattr('state', '==', 'on') | list | count == 0 }}"
 
 action:
-  - alias: "Turn on the light"
-    service: light.turn_on
-    target: !input light_target
+  - if:
+    - alias: "If not already on"
+      condition: template
+      value_template: "{{ expand(lights.entity_id) | selectattr('state', '==', 'on') | list | count == 0 }}"
+    then:
+    - alias: "Turn on the light"
+      service: light.turn_on
+      target: !input light_target
   - alias: "Wait until there is no motion from device"
     wait_for_trigger:
       platform: state

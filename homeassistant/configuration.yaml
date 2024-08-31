@@ -15,6 +15,6 @@ homeassistant:
     effects: !include packages/lighting/effects.yaml
     # my_platform: !include packages/my_platform.yaml
     # presence: !include packages/presence.yaml
-    # security: !include packages/security.yaml
+    security: !include packages/security.yaml
     tv: !include packages/tv/tv.yaml
     ui: !include packages/ui/ui.yaml
