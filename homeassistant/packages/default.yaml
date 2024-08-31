@@ -1,5 +1,5 @@
-ifttt:
-  key: !secret iftt_key
+# ifttt:
+#   key: !secret iftt_key
 
 tts:
   - platform: google_translate

@@ -4,14 +4,15 @@
 google_assistant:
   project_id: !secret google_assistant_project_id
   service_account: !include ../google-service-account.json
+  report_state: true
   exposed_domains:
     - script
-    - scene
+    # - scene
   entity_config:
-    light.tv_backlight:
-      room: Family room
-    light.frame_backlight:
-      room: Family room
+    # light.tv_backlight:
+    #   room: Family room
+    # light.frame_backlight:
+    #   room: Family room
     media_player.sony_bravia_tv:
       name: The TV
       room: Family room
@@ -35,19 +36,19 @@ template:
 # Sound on boot
 #
 automation:
-  - id: on_hass_boot
-    alias: On Boot
-    description: ''
-    trigger:
-    - event: start
-      platform: homeassistant
-    condition: []
-    action:
-    - data:
-        entity_id: media_player.family_room_speaker
-        media_content_id: !secret startup_mp3_path
-        media_content_type: audio/mp3
-      service: media_player.play_media
+  # - id: on_hass_boot
+  #   alias: On Boot
+  #   description: ''
+  #   trigger:
+  #   - event: start
+  #     platform: homeassistant
+  #   condition: []
+  #   action:
+  #   - data:
+  #       entity_id: media_player.family_room_speaker
+  #       media_content_id: !secret startup_mp3_path
+  #       media_content_type: audio/mp3
+  #     service: media_player.play_media
   - id: notify_on_hass_update
     alias: Notify on hass update
     trigger:

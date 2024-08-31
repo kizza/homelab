@@ -1,4 +1,6 @@
-- url: /hacsfiles/magic-home-party-card/magic-home-party-card.js
+# - url: /local/magic-home-party-card.js?v=0.1.4
+#   type: module
+- url: /hacsfiles/magic-home-party-card/magic-home-party-card.js?v=0.1.4
   type: module
 - url: /hacsfiles/lovelace-mushroom/mushroom.js
   type: module

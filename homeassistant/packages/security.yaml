@@ -1,4 +1,30 @@
-stream:
+template:
+  - binary_sensor:
+    - name: Brown car home
+      device_class: occupancy
+      icon: mdi:car
+      state: >-
+        {% if is_state("binary_sensor.primary_park_car_occupancy", 'on')  -%}
+          on
+        {%- else -%}
+          off
+        {%- endif %}
+      delay_on: 0:00:04
+      delay_off: 0:00:04
+  - binary_sensor:
+    - name: White car home
+      device_class: occupancy
+      icon: mdi:car
+      state: >-
+        {% if is_state("binary_sensor.secondary_park_car_occupancy", 'on')  -%}
+          on
+        {%- else -%}
+          off
+        {%- endif %}
+      delay_on: 0:00:04
+      delay_off: 0:00:04
+
+# stream:
 
 # image_processing:
 #   - platform: doods
@@ -24,37 +50,37 @@ stream:
 #       - truck
 
 # A construct for motioneye motion detection events to model
-input_boolean:
-   sauron_motion:
-     name: Sauron Motion
-     initial: off
-template:
-  - binary_sensor:
-    - name: Sauron Motion
-      device_class: motion
-      state: >-
-        {% if is_state('input_boolean.sauron_motion', 'on') -%}
-          on
-        {%- else -%}
-          off
-        {%- endif %}
-automation:
-  - id: 'sauron_motion_sensor'
-    alias: Sauron Motion Sensor
-    description: 'Maintain a motion sensor from motioneye motion_detected event'
-    trigger:
-    - platform: event
-      event_type: motioneye.motion_detected
-    condition: []
-    action:
-    - service: input_boolean.turn_on
-      target:
-        entity_id: input_boolean.sauron_motion
-    - delay:
-        hours: 0
-        minutes: 0
-        seconds: 10
-        milliseconds: 0
-    - service: input_boolean.turn_off
-      target:
-        entity_id: input_boolean.sauron_motion
+# input_boolean:
+#    sauron_motion:
+#      name: Sauron Motion
+#      initial: off
+# template:
+#   - binary_sensor:
+#     - name: Sauron Motion
+#       device_class: motion
+#       state: >-
+#         {% if is_state('input_boolean.sauron_motion', 'on') -%}
+#           on
+#         {%- else -%}
+#           off
+#         {%- endif %}
+# automation:
+#   - id: 'sauron_motion_sensor'
+#     alias: Sauron Motion Sensor
+#     description: 'Maintain a motion sensor from motioneye motion_detected event'
+#     trigger:
+#     - platform: event
+#       event_type: motioneye.motion_detected
+#     condition: []
+#     action:
+#     - service: input_boolean.turn_on
+#       target:
+#         entity_id: input_boolean.sauron_motion
+#     - delay:
+#         hours: 0
+#         minutes: 0
+#         seconds: 10
+#         milliseconds: 0
+#     - service: input_boolean.turn_off
+#       target:
+#         entity_id: input_boolean.sauron_motion
