@@ -18,6 +18,9 @@ google_assistant:
       aliases:
         - Sony TV
 
+shell_command:
+  sync_backups: bash /config/bin/sync_backups.sh
+
 template:
   - sensor:
     - name: "Family"
