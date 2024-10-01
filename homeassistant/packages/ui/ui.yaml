@@ -4,10 +4,3 @@ frontend:
 lovelace:
   mode: yaml
   resources: !include ../../lovelace/resources.yaml
-
-panel_iframe:
-  vscode:
-    title: "vscode"
-    url: !secret vscode_url
-    icon: mdi:microsoft-visual-studio-code
-    require_admin: true
