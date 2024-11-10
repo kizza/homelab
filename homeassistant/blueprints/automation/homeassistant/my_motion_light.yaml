@@ -4,11 +4,27 @@ blueprint:
   domain: automation
   input:
     motion_entity:
-      name: Motion Sensor
+      name: Motion Sensor (or Group)
       selector:
         entity:
           domain: binary_sensor
-          device_class: motion
+          # device_class: motion
+    luminance_sensor:
+      name: Ambient sensor
+      description: "Sensor to determine ambient light threshold"
+      selector:
+        entity:
+          domain: sensor
+          device_class: illuminance
+    luminance_threshold:
+      name: Luminance threshold
+      description: "Only turn on the light if luminance is above this value."
+      default: 40
+      selector:
+        number:
+          min: 0
+          max: 300
+          unit_of_measurement: lux
     light_target:
       name: Light
       selector:
@@ -46,9 +62,13 @@ trigger:
 
 action:
   - if:
-    - alias: "If not already on"
-      condition: template
+    - condition: template
+      alias: "If not already on"
       value_template: "{{ expand(lights.entity_id) | selectattr('state', '==', 'on') | list | count == 0 }}"
+    - condition: numeric_state
+      alias: "If below luminence threshold"
+      entity_id: !input luminance_sensor
+      below: !input luminance_threshold
     then:
     - alias: "Turn on the light"
       service: light.turn_on
