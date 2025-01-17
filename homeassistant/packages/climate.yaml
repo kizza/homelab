@@ -7,8 +7,16 @@ climate:
     unique_id: downstairs_ac
     device_code: 1122
     controller_data: remote.mini_3
-    temperature_sensor: sensor.lumi_lumi_sensor_motion_aq2_device_temperature_5
+    temperature_sensor: sensor.downstairs_climate_temperature
     power_sensor: input_boolean.downstairs_air_con
+
+  - platform: smartir
+    name: Family Room Air Conditioning
+    unique_id: family_room_ac
+    device_code: 1281
+    controller_data: remote.rm_pro
+    temperature_sensor: sensor.upstairs_climate_temperature
+    power_sensor: input_boolean.family_room_air_con
 
 fan:
   - platform: smartir

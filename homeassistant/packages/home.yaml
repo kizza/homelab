@@ -7,6 +7,8 @@ google_assistant:
   report_state: true
   exposed_domains:
     - script
+    - climate
+    - fan
     # - scene
   entity_config:
     # light.tv_backlight:
