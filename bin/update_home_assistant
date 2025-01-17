@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# Pull the latest Home Assistant image
+echo "Pulling the latest Home Assistant image..."
+docker compose pull homeassistant
+
+# Restart the Home Assistant container
+echo "Restarting the Home Assistant container..."
+docker compose up -d homeassistant
+
+# Prune unused Docker images
+echo "Pruning unused Docker images..."
+docker image prune -f
+
+echo "Update and cleanup complete!"
