@@ -160,6 +160,9 @@ Gruvbox Dark:
   # Popup menu */
   paper-listbox-color: "var(--x-text-colour)"
 
+  # form */
+  code-editor-background-color: "var(--gruvbox-bg-0h)"
+
   # mdc */
   mdc-theme-primary: "var(--gruvbox-purple-bright)"                   # Execute button ("Set state" button)
   mdc-theme-on-primary: "var(--x-background-colour)"
