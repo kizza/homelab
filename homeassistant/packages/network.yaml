@@ -16,6 +16,10 @@ http:
   trusted_proxies:
     - !env_var PROXY_IP
 
+zha:
+  enable_quirks: true
+  custom_quirks_path: /config/custom_zha_quirks
+
 #
 # Speedtest.net
 #
