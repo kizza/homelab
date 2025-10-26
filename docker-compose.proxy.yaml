@@ -16,6 +16,7 @@ services:
       - ${PROXY_PORT} # Map external cloudflare port to internal nginx port
     volumes:
       - ./nginx.conf:/etc/nginx/templates/default.conf.template:ro # Mount conf as template (to substitute env variables)
+      - ./nginx.htpasswd:/etc/nginx/.htpasswd:ro
       - ./ssl:/etc/nginx/ssl:ro # Mount fullchain.pem and privkey.pem
     restart: unless-stopped
     networks:
@@ -28,6 +29,8 @@ services:
       - SERVICE_PORT_1=${SERVICE_PORT_1}
       - SERVICE_DOMAIN_2=${SERVICE_DOMAIN_2}
       - SERVICE_PORT_2=${SERVICE_PORT_2}
+      - SERVICE_DOMAIN_3=${SERVICE_DOMAIN_3}
+      - SERVICE_PORT_3=${SERVICE_PORT_3}
 
 networks:
   default:
