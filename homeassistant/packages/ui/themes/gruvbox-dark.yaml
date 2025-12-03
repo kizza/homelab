@@ -67,7 +67,7 @@ Gruvbox Dark:
 
   # Header */
   app-header-text-color: "var(--x-header-text-colour)"
-  app-header-background-color: "var(--x-header-colour)"
+  app-header-background-color: "#1d1f20" # "var(--x-header-colour)"
   text-primary-color: var(--x-background-colour)                      # Header tab border, mobile popup text
 
   # Base */
