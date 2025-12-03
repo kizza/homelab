@@ -28,21 +28,17 @@ go2rtc:
   streams:
     # Recommended settings https://docs.frigate.video/configuration/camera_specific#reolink-cameras
     sentinel:
-      # - ffmpeg:http://{FRIGATE_RTSP_CAM1_IP}/flv?port=1935&app=bcs&stream=channel0_main.bcs&user={FRIGATE_RTSP_USER}&password={FRIGATE_RTSP_PASS}#video=copy#audio=copy#audio=opus
       - rtsp://{FRIGATE_RTSP_USER}:{FRIGATE_RTSP_PASS}@{FRIGATE_RTSP_CAM1_IP}:554/h264Preview_01_main
     sentinelsub:
-      # - ffmpeg:http://{FRIGATE_RTSP_CAM1_IP}/flv?port=1935&app=bcs&stream=channel0_ext.bcs&user={FRIGATE_RTSP_USER}&password={FRIGATE_RTSP_PASS}
       - rtsp://{FRIGATE_RTSP_USER}:{FRIGATE_RTSP_PASS}@{FRIGATE_RTSP_CAM1_IP}:554/h264Preview_01_sub
-    # sauron:
-    #   - ffmpeg:http://{FRIGATE_RTSP_CAM2_IP}/flv?port=1935&app=bcs&stream=channel0_main.bcs&user={FRIGATE_RTSP_USER}&password={FRIGATE_RTSP_PASS}#video=copy#audio=copy#audio=opus
-    # sauronsub:
-    #   - ffmpeg:http://{FRIGATE_RTSP_CAM2_IP}/flv?port=1935&app=bcs&stream=channel0_ext.bcs&user={FRIGATE_RTSP_USER}&password={FRIGATE_RTSP_PASS}#video=copy
-
-    # Direct rtsp (unused)
     sauron:
       - rtsp://{FRIGATE_RTSP_USER}:{FRIGATE_RTSP_PASS}@{FRIGATE_RTSP_CAM2_IP}:554/h264Preview_01_main
     sauronsub:
       - rtsp://{FRIGATE_RTSP_USER}:{FRIGATE_RTSP_PASS}@{FRIGATE_RTSP_CAM2_IP}:554/h264Preview_01_sub
+    scout:
+      - rtsp://{FRIGATE_RTSP_USER2}:{FRIGATE_RTSP_PASS2}@{FRIGATE_RTSP_CAM3_IP}:554/h264Preview_01_main
+    scoutsub:
+      - rtsp://{FRIGATE_RTSP_USER2}:{FRIGATE_RTSP_PASS2}@{FRIGATE_RTSP_CAM3_IP}:554/h264Preview_01_sub
 
 objects:
   track:
@@ -70,7 +66,7 @@ cameras:
       height: 360
     zones:
       driveway:
-        coordinates: 
+        coordinates:
           0.299,0.253,0.312,0.36,0.174,0.349,0.005,0.659,0.881,0.928,0.879,0.629,0.799,0.611,0.803,0.553,0.88,0.42,0.772,0.366,0.68,0.405,0.572,0.406,0.481,0.392,0.427,0.35,0.404,0.271
         inertia: 3
         loitering_time: 0
@@ -117,20 +113,32 @@ cameras:
           input_args: preset-rtsp-restream
           roles:
             - detect
-      # output_args:
-      #   record: preset-record-generic-aac  # good default if your cam outputs AAC
     detect:
       width: 640
       height: 480
     zones:
       deck:
-        coordinates: 
+        coordinates:
           0.366,0.357,0.351,0.223,0.58,0.156,0.754,0.164,0.887,0.17,0.889,0.393
         loitering_time: 0
         objects:
           - person
           - dog
         inertia: 3
+  scout:
+    ffmpeg:
+      inputs:
+        - path: rtsp://127.0.0.1:8554/scout
+          input_args: preset-rtsp-restream
+          roles:
+            - record
+        - path: rtsp://127.0.0.1:8554/scoutsub
+          input_args: preset-rtsp-restream
+          roles:
+            - detect
+    detect:
+      width: 640
+      height: 360
 version: 0.16-0
 detect:
   enabled: true
