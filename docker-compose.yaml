@@ -1,5 +1,6 @@
 include:
   - docker-compose.proxy.yaml
+  - docker-compose.metrics.yaml
 
 services:
   homeassistant:
