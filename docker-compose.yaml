@@ -85,6 +85,23 @@ services:
       - 1883:1883
       - 9001:9001
 
+  zigbee2mqtt:
+    container_name: zigbee2mqtt
+    image: ghcr.io/koenkk/zigbee2mqtt
+    restart: unless-stopped
+    volumes:
+      - /opt/zigbee2mqtt/data:/app/data
+      - /run/udev:/run/udev:ro
+    network_mode: host
+    # devices:
+      # Make sure this matched your adapter location
+      # - /dev/serial/by-id/usb-Texas_Instruments_TI_CC2531_USB_CDC___0X00124B0018ED3DDF-if00:/dev/ttyACM0
+    environment:
+      - TZ=${TZ}
+      - ZIGBEE2MQTT_CONFIG_SERIAL_PORT=${ZIGBEE_ADAPTER_PORT}
+      - ZIGBEE2MQTT_CONFIG_MQTT_USER=${FRIGATE_MQTT_USER}
+      - ZIGBEE2MQTT_CONFIG_MQTT_PASSWORD=${FRIGATE_MQTT_PASS}
+
   frigate:
     container_name: frigate
     image: ghcr.io/blakeblackshear/frigate:stable
