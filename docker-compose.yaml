@@ -45,6 +45,17 @@ services:
       - GOVEE_MQTT_PASSWORD=${GOVEE_MQTT_PASSWORD}
       - TZ=${TZ}
 
+  omada:
+    container_name: omada-controller
+    image: mbentley/omada-controller:6.0
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      - TZ=${TZ}
+    volumes:
+      - /opt/omada/data:/opt/tplink/EAPController/data
+      - /opt/omada/logs:/opt/tplink/EAPController/logs
+
   kuma:
     image: louislam/uptime-kuma:1
     container_name: uptime-kuma
