@@ -27,3 +27,14 @@ services:
       HUB_URL: http://localhost:8090
       KEY: '${METRICS_KEY}'
       TOKEN: ${METRICS_TOKEN}
+
+  kuma:
+    image: louislam/uptime-kuma:1
+    container_name: uptime-kuma
+    restart: unless-stopped
+    volumes:
+      - /opt/kuma:/app/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 3001:3001
+

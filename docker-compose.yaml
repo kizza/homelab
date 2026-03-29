@@ -56,16 +56,6 @@ services:
       - /opt/omada/data:/opt/tplink/EAPController/data
       - /opt/omada/logs:/opt/tplink/EAPController/logs
 
-  kuma:
-    image: louislam/uptime-kuma:1
-    container_name: uptime-kuma
-    restart: unless-stopped
-    volumes:
-      - /opt/kuma:/app/data
-      - /var/run/docker.sock:/var/run/docker.sock
-    ports:
-      - 3001:3001
-
   code-server:
     image: lscr.io/linuxserver/code-server:latest
     container_name: code-server
