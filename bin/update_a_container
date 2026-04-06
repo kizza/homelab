@@ -1,0 +1,14 @@
+#!/bin/bash
+
+SERVICE=$(
+  docker compose ps --services | fzf --height=50% --reverse --preview 'docker compose ps {}'
+) || return
+
+echo "Pulling latest $SERVICE..."
+docker compose pull "$SERVICE"
+
+echo "Restarting $SERVICE..."
+docker compose up --force-recreate --build -d "$SERVICE"
+
+echo "Pruning unused Docker images..."
+docker image prune -f
