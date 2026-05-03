@@ -137,6 +137,27 @@ services:
       - FRIGATE_RTSP_USER2=${RTSP_USER2}
       - FRIGATE_RTSP_PASS2=${RTSP_PASS2}
 
+  isolar2mqtt:
+    build: https://github.com/kizza/iSolar2mqtt.git
+    container_name: isolar2mqtt
+    restart: unless-stopped
+    network_mode: host
+    depends_on:
+      - mqtt
+
+    environment:
+      - USER_ACCOUNT=${ISOLAR_USER}
+      - USER_PASSWORD=${ISOLAR_PASS}
+      - APP_KEY=${ISOLAR_APP_KEY}
+
+      - MQTT_HOST=127.0.0.1
+      - MQTT_PORT=1883
+      - MQTT_USERNAME=${ISOLAR_MQTT_USER}
+      - MQTT_PASSWORD=${ISOLAR_MQTT_PASS}
+      - MQTT_TOPIC=solar/sungrow/power
+
+      - POLL_INTERVAL=300 # Every 5 minutes
+
   # motioneye:
   #   container_name: motioneye
   #   image: ccrisan/motioneye:master-armhf
