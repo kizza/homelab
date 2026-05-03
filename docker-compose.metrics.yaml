@@ -28,6 +28,29 @@ services:
       KEY: '${METRICS_KEY}'
       TOKEN: ${METRICS_TOKEN}
 
+  dockhand:
+    image: fnsys/dockhand:latest
+    container_name: dockhand
+    restart: unless-stopped
+    ports:
+      - 4000:3000
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /opt/dockhand/data:/app/data
+
+  dozzle:
+    image: amir20/dozzle:latest
+    container_name: dozzle
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /opt/dozzle/data:/data  # Persist notification settings
+    ports:
+      - 9999:8080  # Using 9999 to avoid conflict with Homer on 8080
+    environment:
+      - DOZZLE_NO_ANALYTICS=true
+      - DOZZLE_LEVEL=info
+
   kuma:
     image: louislam/uptime-kuma:1
     container_name: uptime-kuma
