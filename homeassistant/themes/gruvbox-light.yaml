@@ -1,26 +1,27 @@
-Gruvbox Dark:
+Gruvbox Light:
   #
   # Gruvbox palette
   #
 
   # Background
-  gruvbox-bg-0h: "hsl(200, 5%, 12%)"
-  gruvbox-bg-0s: "hsl(20, 3%, 16%)"
-  gruvbox-bg-0: "hsl(0, 0%, 16%)"
-  gruvbox-bg-1: "hsl(17, 6%, 23%)"
-  gruvbox-bg-2: "hsl(16, 7%, 29%)"
-  gruvbox-bg-3: "hsl(23, 10%, 36%)"
-  gruvbox-bg-4: "hsl(29, 10%, 44%)"
+  gruvbox-bg-0h: "hsl(51, 78%, 91%)"
+  gruvbox-bg-0s: "hsl(46, 67%, 84%)"
+  # gruvbox-bg-0: "hsl(49, 83%, 88%)"
+  gruvbox-bg-0: "hsl(47, 59%, 87%)"
+  gruvbox-bg-1: "hsl(44, 57%, 81%)"
+  gruvbox-bg-2: "hsl(40, 38%, 73%)"
+  gruvbox-bg-3: "hsl(38, 25%, 66%)"
+  gruvbox-bg-4: "hsl(37, 17%, 58%)"
   gruvbox-bg-5: "hsl(30, 12%, 51%)"
 
-  # Foreground
-  gruvbox-fg-4: "hsl(33, 17%, 59%)"
-  gruvbox-fg-3: "hsl(38, 25%, 66%)"
-  gruvbox-fg-2: "hsl(40, 38%, 73%)"
-  gruvbox-fg-1: "hsl(42, 60%, 81%)"
-  gruvbox-fg-0: "hsl(48, 90%, 88%)"
+  # Foreground */
+  gruvbox-fg-4: "hsl(30, 11%, 44%)"
+  gruvbox-fg-3: "hsl(30, 10%, 36%)"
+  gruvbox-fg-2: "hsl(22, 7%, 29%)"
+  gruvbox-fg-1: "hsl(24, 4%, 22%)"
+  gruvbox-fg-0: "hsl(0, 0%, 16%)"
 
-  # Colours
+  # Colours */
   gruvbox-red: "hsl(2, 74%, 46%)"
   gruvbox-green: "hsl(59, 72%, 35%)"
   gruvbox-yellow: "hsl(40, 74%, 48%)"
@@ -29,21 +30,21 @@ Gruvbox Dark:
   gruvbox-aqua: "hsl(122, 21%, 51%)"
   gruvbox-orange: "hsl(24, 89%, 45%)"
 
-  # Bright
-  gruvbox-green-bright: "hsl(104, 35%, 62%)"
-  gruvbox-yellow-bright: "hsl(42, 95%, 58%)"
-  gruvbox-blue-bright: "hsl(157, 16%, 58%)"
-  gruvbox-purple-bright: "hsl(344, 47%, 68%)"
-  gruvbox-aqua-bright: "hsl(105, 35%, 62%)"
-  gruvbox-orange-bright: "hsl(27, 99%, 55%)"
+  # Bright */
+  gruvbox-green-bright: "hsl(57, 78%, 26%)"
+  gruvbox-yellow-bright: "hsl(36, 78%, 40%)"
+  gruvbox-blue-bright: "hsl(190, 89%, 25%)"
+  gruvbox-purple-bright: "hsl(323, 39%, 40%)"
+  gruvbox-aqua-bright: "hsl(144, 30%, 37%)"
+  gruvbox-orange-bright: "hsl(19, 96%, 35%)"
 
   #
   # Custom for light/dark
   #
 
-  x-header-colour: "var(--gruvbox-bg-0h)"
-  x-header-text-colour: "var(--x-text-colour)"
-  x-divider-colour: "var(--gruvbox-bg-2)"
+  x-header-colour: "var(--gruvbox-fg-4)"
+  x-header-text-colour: "var(--gruvbox-bg-0h)"
+  x-divider-colour: "var(--gruvbox-bg-1)"
 
   #
   # VARIABLES (Identical below here for light and dark)
@@ -62,12 +63,17 @@ Gruvbox Dark:
   # IMPLEMENTATION
   #
 
+  # HA colours palette */
+  ha-color-neutral-40: var(--gruvbox-fg-4)
+  ha-color-neutral-80: var(--gruvbox-bg-2)
+  ha-color-neutral-90: var(--gruvbox-bg-0h)
+
   # Hardcoded */
   primary-color: "hsl(333, 34%, 54%)"                                 # Used for links var(--gruvbox-purple)
 
   # Header */
   app-header-text-color: "var(--x-header-text-colour)"
-  app-header-background-color: "#1d1f20" # "var(--x-header-colour)"
+  app-header-background-color: "#7d7064" # "var(--x-header-colour)"
   text-primary-color: var(--x-background-colour)                      # Header tab border, mobile popup text
 
   # Base */
@@ -93,10 +99,6 @@ Gruvbox Dark:
   paper-card-background-color: "var(--x-card-background-colour)"
   card-background-color: "var(--x-card-background-colour)"
 
-  # Mushroom cards */
-  mush-rgb-state-media-player: "131, 165, 152"
-  rgb-state-media-player: "131, 165, 152"
-
   # Table
   table-row-background-color: "var(--gruvbox-bg-0)"
   table-row-alternative-background-color: "var(--gruvbox-bg-1)"
@@ -105,6 +107,7 @@ Gruvbox Dark:
   # Icons */
   paper-item-icon-color: var(--x-icon-colour)                         # Used by sensor graph
   paper-item-icon-active-color: "var(--x-icon-colour-on)"
+  state-icon-color: var(--gruvbox-blue)
   state-icon-unavailable-color: var(--gruvbox-bg-3)
 
   # Popup */
@@ -160,16 +163,11 @@ Gruvbox Dark:
   # Popup menu */
   paper-listbox-color: "var(--x-text-colour)"
 
-  # form */
-  code-editor-background-color: "var(--gruvbox-bg-0h)"
-
   # mdc */
   mdc-theme-primary: "var(--gruvbox-purple-bright)"                   # Execute button ("Set state" button)
   mdc-theme-on-primary: "var(--x-background-colour)"
   mdc-theme-secondary: "var(--gruvbox-orange-bright)"                 # FAB button
   mdc-theme-on-secondary: "var(--x-background-colour)"
-  mdc-text-field-ink-color: "var(--gruvbox-fg-1)"
-  mdc-text-field-fill-color: "hsl(42deg 4% 19%)" # "hsl(42deg 100% 97%)"
   mdc-text-field-label-ink-color: "var(--gruvbox-fg-4)"
   mdc-text-field-hover-line-color: "var(--gruvbox-fg-3)"
   paper-tabs-selection-bar-color: "yellow"

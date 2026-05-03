@@ -17,4 +17,4 @@ homeassistant:
     # presence: !include packages/presence.yaml
     security: !include packages/security.yaml
     tv: !include packages/tv/tv.yaml
-    ui: !include packages/ui/ui.yaml
+    ui: !include packages/ui.yaml

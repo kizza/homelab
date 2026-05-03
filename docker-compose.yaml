@@ -14,6 +14,7 @@ services:
       - ./homeassistant/bin:/config/bin:ro
       - ./homeassistant/blueprints:/config/blueprints:ro
       - ./homeassistant/custom_zha_quirks:/config/custom_zha_quirks:ro
+      - ./homeassistant/themes:/config/themes
       - ./homeassistant/lovelace:/config/lovelace:ro
       - ./homeassistant/packages:/config/packages:ro
       - ./homeassistant/www/icons:/config/www/icons:ro
