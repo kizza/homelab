@@ -13,8 +13,6 @@ services:
     image: henrygd/beszel-agent:latest
     container_name: beszel-agent
     restart: unless-stopped
-    # depends_on:
-    #   - beszel
     network_mode: host
     volumes:
       - /opt/beszel/agent:/var/lib/beszel-agent
@@ -27,6 +25,20 @@ services:
       HUB_URL: http://localhost:8090
       KEY: '${METRICS_KEY}'
       TOKEN: ${METRICS_TOKEN}
+
+  beszel-remote-agent:
+    image: henrygd/beszel-agent:latest
+    container_name: beszel-remote-agent
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      HUB_URL: '${REMOTE_METRICS_HUB_URL}'
+      LISTEN: 45876
+      KEY: '${REMOTE_METRICS_KEY}'
+      TOKEN: ${REMOTE_METRICS_TOKEN}
+    volumes:
+      - /opt/beszel-remote-agent:/var/lib/beszel-remote-agent
+      - /var/run/docker.sock:/var/run/docker.sock:ro
 
   dockhand:
     image: fnsys/dockhand:latest
