@@ -108,7 +108,7 @@ services:
     container_name: frigate
     image: ghcr.io/blakeblackshear/frigate:stable
     privileged: true
-    shm_size: "76mb" # update for your cameras based on calculation above
+    shm_size: "158mb" # update for your cameras based on calculation above
     restart: unless-stopped
     volumes:
       - /etc/localtime:/etc/localtime:ro
@@ -121,6 +121,7 @@ services:
           size: 1000000000
     devices:
       - /dev/bus/usb:/dev/bus/usb
+      - /dev/dri/renderD128:/dev/dri/renderD128
     ports:
       - "5050:5000" # Port used by the Web UI
       - "8554:8554" # RTSP feeds
@@ -136,6 +137,7 @@ services:
       - FRIGATE_RTSP_PASS=${RTSP_PASS}
       - FRIGATE_RTSP_USER2=${RTSP_USER2}
       - FRIGATE_RTSP_PASS2=${RTSP_PASS2}
+      - LIBVA_DRIVER_NAME=i965
 
   isolar2mqtt:
     build: https://github.com/kizza/iSolar2mqtt.git

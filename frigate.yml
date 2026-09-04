@@ -6,6 +6,9 @@ mqtt:
   topic_prefix: frigate
   client_id: frigate
 
+ffmpeg:
+  hwaccel_args: preset-vaapi
+
 detectors:
   coral:
     type: edgetpu
